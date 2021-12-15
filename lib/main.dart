@@ -1,59 +1,62 @@
 // ignore_for_file: deprecated_member_use, avoid_print
 
 import 'package:flutter/material.dart';
+import './question.dart';
+import './answer.dart';
 
-void main() => runApp( MyApp());
+void main() => runApp(MyApp());
 
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key);
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-  var questionIndex = 0;
+  var _questionIndex = 0;
 
-  void answerQuestion() {
-   setState(() {
-      questionIndex += 1;
-   });
-    print(questionIndex);
+  void _answerQuestion() {
+    setState(() {
+      _questionIndex += 1;
+    });
+    print(_questionIndex);
   }
-
 
   @override
   Widget build(BuildContext context) {
-  
-
     var questions = [
-      'What\'s your favorite color?',
-      'What\'s your favorite animal?',
+      {
+        'questionText': 'What\'s your favorite color?',
+        'answers': ['blue', 'red', 'green', 'yellow']
+      },
+      {
+        'questionText': 'What\'s your favorite animal?',
+        'answers': ['cat', 'dog', 'pig', 'cow']
+      },
+      {
+        'questionText': 'What\'s your favorite food?',
+        'answers': ['pizza', 'burger', 'sushi', 'ramen']
+      },
+    {
+        'questionText': 'What\'s your favorite sport?',
+        'answers': ['soccer', 'basketball', 'tennis', 'football']
+      },
     ];
 
     return MaterialApp(
         home: Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text('The title of my app')),
+        title: const Center(child: Text('Personality Quiz App')),
       ),
       body: Column(
         children: [
-          Text(questions[questionIndex]),
-          RaisedButton(
-            child: const Text('Answer 1'),
-            onPressed: answerQuestion,
-          ),
-          RaisedButton(
-            child: const Text('Answer 1'),
-            onPressed: () => print('Answer 2 chosen'),
-          ),
-          RaisedButton(
-            child: const Text('Answer 1'),
-            onPressed: () {
-              print('Answer 3 chosen');
-            },
-          )
+          Question(questions[_questionIndex]['questionText'] as String),
+        ...(questions[_questionIndex] ['answers']as List<String>).map((answer) {
+          return Answer(_answerQuestion, answer);
+        }).toList()
         ],
+        
+    
       ),
     ));
   }
